@@ -137,3 +137,13 @@ $RECYCLE.BIN/
 
 Git testen:
 $ git status
+
+
+Hinzufügen und Committen:
+$ git add .
+$ git commit -m "Meine Django-Girls-App, erster Commit"
+
+
+
+Github Account und Repository anlegen:
+https://github.com/
