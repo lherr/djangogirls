@@ -147,3 +147,8 @@ $ git commit -m "Meine Django-Girls-App, erster Commit"
 
 Github Account und Repository anlegen:
 https://github.com/
+
+
+Quelltext in Repository hochladen:
+git remote add origin https://github.com/<your-github-username>/djangogirls.git
+git push -u origin main
