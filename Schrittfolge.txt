@@ -211,3 +211,40 @@ Committen:
 git status
 git add .
 git status
+git commit -m "HTML der Site geändert."
+git push
+
+
+
+Dynamische Daten in Templates:
+
+Datei blog/views.py
+
+from django.shortcuts import render
+from django.utils import timezone
+from .models import Post
+
+def post_list(request):
+    posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
+    return render(request, 'blog/post_list.html', {'posts': posts})
+
+
+
+Templates anpassen:
+
+Datei blog/templatest/blog/post_list.html ergänzen:
+
+<header>
+    <h1><a href="/">Django Girls Blog</a></h1>
+</header>
+
+{% for post in posts %}
+    <article>
+        <time>published: {{ post.published_date }}</time>
+        <h2><a href="">{{ post.title }}</a></h2>
+        <p>{{ post.text|linebreaksbr }}</p>
+    </article>
+{% endfor %}
+
+
+
