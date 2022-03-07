@@ -1,0 +1,139 @@
+Virtual Environment installieren:
+sudo apt install python3-venv
+
+Virtuelle Umgebung erzeugen:
+python3 -m venv myvenv
+
+Virtuelle Umgebung betreten:
+source myvenv/bin/activate
+
+Virtuelle Umgebung verlassen:
+deactivate
+
+Django in virtueller umgebung installieren:
+python -m pip install --upgrade pip
+requirements.txt mit Inhalt "Django~=3.2.11" anlegen
+pip install -r requirements.txt
+
+Git installieren:
+sudo apt install git
+
+In virtueller Umgebung Djangoprojekt anlegen:
+django-admin startproject mysite .
+
+Settings anpassen:
+-> mysite/settings.py
+TIME_ZONE = 'Europe/Berlin'
+LANGUAGE_CODE = 'de-de'
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'static'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static') (Djangogirls)
+
+
+Datenbank erstellen:
+python manage.py migrate
+
+Webserver starten:
+python manage.py runserver
+Server läuft auf: http://localhost:8000/
+
+Applikation für den Blog starten
+python manage.py startapp blog
+
+Eintrag in mysite/settings.py:
+INSTALLED_APPS = [
+    ...
+    'blog.apps.BlogConfig',
+]
+
+Inhalt der Datei blog/models.py löschen und folgendes eintragen:
+from django.conf import settings
+from django.db import models
+from django.utils import timezone
+
+
+class Post(models.Model):
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    title = models.CharField(max_length=200)
+    text = models.TextField()
+    created_date = models.DateTimeField(default=timezone.now)
+    published_date = models.DateTimeField(blank=True, null=True)
+
+    def publish(self):
+        self.published_date = timezone.now()
+        self.save()
+
+    def __str__(self):
+        return self.title
+
+Model in Datenbank anlegen:
+python manage.py makemigrations blog
+
+
+
+blog/admin.py ändern:
+
+from django.contrib import admin
+from .models import Post
+
+admin.site.register(Post)
+
+
+
+Superuser erstellen:
+python manage.py migrate
+python manage.py createsuperuser
+
+
+Adminseite aufrufen und anmelden:
+python manage.py runserver
+http://127.0.0.1:8000/admin/
+
+Einige Posts anlegen!
+
+
+Git Repository in Verzeichnis Djangogirls anlegen:
+$ git init
+Initialized empty Git repository in ~/djangogirls/.git/
+$ git config --global user.name "Dein Name"
+$ git config --global user.email du@example.com
+
+
+.gitignore anlegen:
+# Python
+*.pyc
+*~
+__pycache__
+
+# Env
+.env
+myvenv/
+venv/
+
+# Datenbank
+db.sqlite3
+
+# Static Ordner im Projektverzeichnis
+/static/
+
+# macOS
+._*
+.DS_Store
+.fseventsd
+.Spotlight-V100
+
+# Windows
+Thumbs.db*
+ehthumbs*.db
+[Dd]esktop.ini
+$RECYCLE.BIN/
+
+# Visual Studio
+.vscode/
+.history/
+*.code-workspace
+
+
+
+Git testen:
+$ git status
